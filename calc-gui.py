@@ -65,3 +65,67 @@ def operator_button(operator):
     
     
 
+
+def point():
+    update_input_ready_status()
+    display_entry.insert(END, ".")
+def clear():
+    update_input_ready_status()
+    display_entry.delete(0, END)
+    
+    
+   
+def signchange():
+    update_input_ready_status()
+    current = display_entry.get()
+    last_index = find_last_ops_index(current)    
+    if len(current) > 0 and len(current)-1 != last_index and last_index > 0:      
+        if last_index > 0:
+            if current[last_index] == "*":
+                display_entry.insert(last_index + 1, "(-")
+            elif current[last_index] == "-":
+                display_entry.delete(last_index)
+                display_entry.insert(last_index, "+")
+            elif current[last_index] == "+":
+                display_entry.delete(last_index)
+                display_entry.insert(last_index, "-")   
+            elif current[last_index] == "(":
+                display_entry.insert(last_index + 1, "-")
+    elif len(current)-1 == last_index and last_index > 0:
+        if current[last_index] == "-":
+            display_entry.delete(last_index)
+            display_entry.insert(last_index, "+")
+        elif current[last_index] == "(":
+            display_entry.insert(last_index + 1, "-")    
+        else:
+            display_entry.delete(last_index)
+            display_entry.insert(last_index, "-")                                  
+    else:
+        if current[0] != "-":
+            display_entry.insert(0, "-")
+        elif current[0] == "-":
+            display_entry.delete(0)      
+            
+def parentheses():             
+    update_input_ready_status()
+    current = display_entry.get()
+    left = current.count("(")
+    right = current.count(")")
+    if current == "":
+        display_entry.insert(END, "(")
+    elif current[-1] == "(":
+        display_entry.insert(END, "(")
+    elif current[-1] in OPS:
+        display_entry.insert(END, "(")
+    elif left > right:
+        display_entry.insert(END, ")")
+    elif left == right:
+        if current[-1] in OPS:    
+            display_entry.insert(END, "(")    
+        else:
+            display_entry.insert(END, "*(")    
+    else:
+        display_entry.insert(END, "error")
+        
+def equals():
+    
