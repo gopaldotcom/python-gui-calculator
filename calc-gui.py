@@ -129,3 +129,80 @@ def parentheses():
         
 def equals():
     
+  del_operator()   
+    
+    current = display_entry.get()   
+    
+    if current == "":  
+        current = '0'
+        
+  
+    left = current.count("(")
+    right = current.count(")")
+    if left > right:
+        for _ in range(left-right):
+            current += ")"
+
+    
+    last_questestion = current  
+    if "%" in current:
+        for _ in range(current.count("%")):
+            current = current.replace("%", "/100")
+            
+  
+    try:
+        if check_safe_for_eval(current):    
+            result = eval(current)       
+           
+            if result == int(result):
+                result = int(result)
+                
+            
+            result = round(result, 13) 
+           
+            
+           
+            if abs(result - int(round(result))) < 0.000_000_000_001:
+                result = int(round(result))
+            
+            update_input_ready_status(True) 
+        else:
+            raise ValueError("Unauthorized input")
+    
+    except:
+        def clear_display():
+            display_entry.delete(0, END)
+            equals_button.config(bg=COLORS[1], fg=COLORS[3], state=NORMAL)
+        def error_print():
+            display_entry.delete(0, END)
+            display_entry.insert(0, "ERROR")
+            equals_button.config(bg="red", state=DISABLED)
+            window.after(1500, clear_display)   
+        window.after(0, error_print)   
+        result = "err"  
+        
+   
+    display_entry.delete(0, END)
+    display_entry.insert(0, str(result))
+    
+   
+    global Last_Display 
+    if "=" in str(Last_Display):   
+        Last_Display_result = Last_Display.split('=')[-1]   
+    else:
+        Last_Display_result = Last_Display  
+    Last_Display_2 = Last_Display
+    if result == "err":
+        Last_Display = (f"{last_questestion}={result}")  
+    else:
+        Last_Display = (f"{last_questestion}={result:,}") 
+    if len(Last_Display) >= 40:
+        Last_Display = f"{result:,}"   
+    if Last_Display_result != current:  
+        if recent_label_1["text"] == "":
+            recent_label_1.config(text=Last_Display)
+        else:
+            recent_label_2.config(text=Last_Display_2)
+            recent_label_1.config(text=Last_Display)
+            
+            
