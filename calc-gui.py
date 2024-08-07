@@ -259,3 +259,43 @@ six_button = Button(button_frame, text="6", font=BUTTON_FONT, width=3,height=1, 
 six_button.grid(column=2, row=2)
 subtraction_button = Button(button_frame, text="-", font=BUTTON_FONT, width=3,height=1, highlightthickness=0, command=lambda:operator_button("-"), bg=COLORS[2], fg=COLORS[3])
 subtraction_button.grid(column=3, row=2)
+
+
+one_button = Button(button_frame, text="1", font=BUTTON_FONT, width=3,height=1, highlightthickness=0, command=lambda:number_input("1"), bg=COLORS[3], fg=COLORS[0])
+one_button.grid(column=0, row=3)
+two_button = Button(button_frame, text="2", font=BUTTON_FONT, width=3,height=1, highlightthickness=0, command=lambda:number_input("2"), bg=COLORS[3], fg=COLORS[0])
+two_button.grid(column=1, row=3)
+three_button = Button(button_frame, text="3", font=BUTTON_FONT, width=3,height=1, highlightthickness=0, command=lambda:number_input("3"), bg=COLORS[3], fg=COLORS[0])
+three_button.grid(column=2, row=3)
+addition_button = Button(button_frame, text="+", font=BUTTON_FONT, width=3,height=1, highlightthickness=0, command=lambda:operator_button("+"), bg=COLORS[2], fg=COLORS[3])
+addition_button.grid(column=3, row=3)
+
+
+signchange_button = Button(button_frame, text="+/-", font=BUTTON_FONT, width=3,height=1, highlightthickness=0, command=signchange, bg=COLORS[3], fg=COLORS[0])
+signchange_button.grid(column=0, row=4)
+zero_button = Button(button_frame, text="0", font=BUTTON_FONT, width=3,height=1, highlightthickness=0, command=lambda:number_input("0"), bg=COLORS[3], fg=COLORS[0])
+zero_button.grid(column=1, row=4)
+point_button = Button(button_frame, text=".", font=BUTTON_FONT, width=3,height=1, highlightthickness=0, command=point, bg=COLORS[3], fg=COLORS[0])
+point_button.grid(column=2, row=4)
+equals_button = Button(button_frame, text="=", font=BUTTON_FONT, width=3,height=1, highlightthickness=0, command=equals, bg=COLORS[1], fg=COLORS[3])
+equals_button.grid(column=3, row=4)
+
+
+def backspace(event):   
+    current = display_entry.get()
+    focus = str(window.focus_get())        
+    if focus != ".!frame.!entry":
+        if len(current) > 0:
+            last_index = len(current) -1
+            display_entry.delete(last_index, END)  
+
+
+window.bind("<BackSpace>", backspace) 
+window.bind("<Escape>", lambda event: clear())      
+window.bind("<Return>", lambda event: equals())
+
+
+window.mainloop()
+
+
+
